@@ -16,7 +16,7 @@ export class AuthController {
     @Body(ValidationPipe) createUserDto: CreateUserDto,
   ): Promise<{ message: string }> {
     await this.authService.createAccount(createUserDto);
-    return { message: 'Usuário cadastrado com sucesso.' };
+    return { message: 'User created sucessfuly.' };
   }
 
   @Post('/login')

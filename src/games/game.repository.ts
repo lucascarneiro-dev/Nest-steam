@@ -28,10 +28,10 @@ export class GameRepository extends Repository<Game> {
       return game;
     } catch (error) {
       if (error.code.toString() === '23505') {
-        throw new ConflictException('Jogo já existe');
+        throw new ConflictException('Game already exists');
       } else {
         throw new InternalServerErrorException(
-          'Erro ao salvar o jogo no banco.',
+          'Error.',
         );
       }
     }

@@ -20,11 +20,7 @@ export class AuthService {
   ) {}
 
   async createAccount(createUserDto: CreateUserDto): Promise<User> {
-    if (createUserDto.password !== createUserDto.passwordConfirmation) {
-      throw new UnprocessableEntityException('As senhas não são iguais.');
-    } else {
-      return this.userRepository.createUser(createUserDto, UserRole.USER);
-    }
+    return this.userRepository.createUser(createUserDto, UserRole.USER);
   }
 
   async loginUser(UserCredentialsDto: UserCredentialsDto) {
@@ -33,7 +29,7 @@ export class AuthService {
     );
 
     if (user == null) {
-      throw new UnauthorizedException('Informações são inválidas');
+      throw new UnauthorizedException('Invalid request.');
     }
 
     const jwtPayload = {

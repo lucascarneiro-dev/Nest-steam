@@ -17,12 +17,10 @@ export class GamesService {
     private gameService: GameRepository,
   ) {}
 
-  // get all games
   async getAllGames(): Promise<Game[]> {
     return await this.gameService.find();
   }
 
-  // create game
   async createGameUserAdmin(
     createGameDto: CreateGameDto,
     userId: User,
@@ -31,24 +29,21 @@ export class GamesService {
     return game;
   }
 
-  // get by game name
   async findByNameGame(name: string): Promise<Game> {
     const nameGame = await this.gameService.findOne({ where: { name } });
     return nameGame;
   }
 
-  // get by id game
   async findGameById(gameId: string): Promise<Game> {
     const game = await this.gameService.findOne(gameId, {
       select: ['name', 'image', 'bio', 'releaseDate', 'likes', 'categories'],
     });
 
-    if (!game) throw new NotFoundException('Jogo não encontrado');
+    if (!game) throw new NotFoundException('Game not found');
 
     return game;
   }
 
-  // update game
   async updateGame(updateGameDto: UpdateGameDto, id: string): Promise<Game> {
     const game = await this.findGameById(id);
     const { name, image, bio, releaseDate, likes } = updateGameDto;
@@ -63,7 +58,7 @@ export class GamesService {
       return game;
     } catch (error) {
       throw new InternalServerErrorException(
-        'Erro ao atualizar os dados no banco de dados',
+        'Error',
       );
     }
   }
@@ -73,7 +68,7 @@ export class GamesService {
     const result = await this.gameService.delete({ id: gameId });
     if (result.affected === 0) {
       throw new NotFoundException(
-        'Não foi encontrado um jogo com o ID informado',
+        'Game not found.',
       );
     }
   }

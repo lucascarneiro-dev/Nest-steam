@@ -35,24 +35,22 @@ export class UsersController {
     const user = await this.usersService.createAdminUser(createUserDto);
     return {
       user,
-      message: 'Administrador criado com sucesso',
+      message: 'User created.',
     };
   }
 
-  // get all users
   @Get()
   async getAll() {
     return this.usersService.getAllUsers();
   }
 
-  // get name user
   @Get(':username')
   async getUserByUsername(
     @Param('username') username: string,
   ): Promise<ReturnUserDto> {
     const user = await this.usersService.getUserByUsername(username);
     if (!user) {
-      throw new NotFoundException('Usuário não encontrado');
+      throw new NotFoundException('User not found');
     }
     return {
       user,
@@ -60,7 +58,6 @@ export class UsersController {
     };
   }
 
-  // get by id user
   @Get(':id')
   async getByIdUser(
     @Param('id', ParseIntPipe) id: number,
@@ -89,8 +86,6 @@ export class UsersController {
     }
   }
 
-  // add game
-
   @UseGuards(AuthGuard(), RolesGuard)
   @Patch(':id')
   async addGame(
@@ -101,7 +96,7 @@ export class UsersController {
     const user = this.usersService.addGameUser(updateUser, id, userMe.id);
     return {
       user,
-      message: 'sei',
+      message: 'se',
     };
   }
 }

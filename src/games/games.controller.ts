@@ -30,28 +30,25 @@ export class GamesController {
     private gameService: GamesService,
   ) {}
 
-  // get all games
   @Get()
   async findAllGames() {
     return this.gameService.getAllGames();
   }
 
-  // get by game name
   @Get(':name')
   async getByNameGame(@Param('name') name: string): Promise<ReturnGameDto> {
     const game = await this.gameService.findByNameGame(name);
 
     if (!game) {
-      throw new NotFoundException('Jogo não encontrado');
+      throw new NotFoundException('Game not found');
     }
 
     return {
       game,
-      message: 'Jogo encontrado.',
+      message: 'Game found.',
     };
   }
 
-  // create game admin user
   @Post('create-game')
   @UseGuards(AuthGuard(), RolesGuard)
   @Role(UserRole.ADMIN)
@@ -67,7 +64,7 @@ export class GamesController {
     console.log(userId);
     return {
       game,
-      message: 'Jogo criado com sucesso.',
+      message: 'Game sucessfully posted.',
     };
   }
 
@@ -79,7 +76,7 @@ export class GamesController {
   ) {
     if (user.role != UserRole.ADMIN)
       throw new ForbiddenException(
-        'Você não tem autorização para acessar esse recurso',
+        'You are not allowed.',
       );
     else {
       return this.gameService.updateGame(updateGameDto, id);
@@ -93,7 +90,7 @@ export class GamesController {
     const game = await this.gameService.findGameById(id);
     return {
       game,
-      message: 'Jogo encontrado',
+      message: 'Game found',
     };
   }
 
@@ -101,6 +98,6 @@ export class GamesController {
   @Role(UserRole.ADMIN)
   async deleteUser(@Param('id') id: string) {
     await this.gameService.deleteUser(id);
-    return { message: 'Jogo excluído com sucesso' };
+    return { message: 'Game deleted.' };
   }
 }

@@ -12,24 +12,18 @@ export class CreateUserDto {
   id: number;
 
   @IsNotEmpty({
-    message: 'Informe um endereço de e-mail.',
+    message: 'E-mail is missing.',
   })
-  @IsEmail({}, { message: 'Informe um endereço de e-mail válido.' })
+  @IsEmail({}, { message: 'E-mail not valid.' })
   email: string;
 
-  @IsNotEmpty({ message: 'Informe o nome de usuário.' })
-  @MaxLength(200, { message: 'O nome deve ter menos de 200 caracteres' })
+  @IsNotEmpty({ message: 'Username is missing.' })
+  @MaxLength(200, { message: 'Name must have less than 200 characters.' })
   username: string;
 
-  @IsNotEmpty({ message: 'Informe uma senha.' })
-  @MinLength(8, { message: 'A senha deve ter no mínimo 8 caracteres' })
+  @IsNotEmpty({ message: 'Password is missing.' })
+  @MinLength(8, { message: 'Pasword must have at least 8 characters' })
   password: string;
-
-  @IsNotEmpty({ message: 'Informe uma senha.' })
-  @MinLength(8, {
-    message: 'A Confirmação de senha deve deve ser igual a senha.',
-  })
-  passwordConfirmation: string;
 
   @IsOptional()
   games: Game[];

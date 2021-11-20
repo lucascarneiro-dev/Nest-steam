@@ -20,16 +20,10 @@ export class UsersService {
     private gameRepository: GameRepository,
   ) {}
 
-  // create user admin
   async createAdminUser(createUserDto: CreateUserDto): Promise<User> {
-    if (createUserDto.password != createUserDto.passwordConfirmation) {
-      throw new UnprocessableEntityException('As senhas não são iguais');
-    } else {
-      return this.userService.createUser(createUserDto, UserRole.ADMIN);
+    return this.userService.createUser(createUserDto, UserRole.ADMIN);
     }
-  }
 
-  // update user
   async updateUser(updateUserDto: UpdateUserDto, id: number): Promise<User> {
     const user = await this.findUserById(id);
     const { username, email, role, status } = updateUserDto;
@@ -44,29 +38,26 @@ export class UsersService {
       return user;
     } catch (error) {
       throw new InternalServerErrorException(
-        'Erro ao salvar no banco de dados',
+        'Error',
       );
     }
   }
 
-  // get all users
   async getAllUsers(): Promise<User[]> {
     return await this.userService.find();
   }
 
-  // get by id user
   async findUserById(userId: number): Promise<User> {
     const user = await this.userService.findOne(userId, {
       select: ['email', 'username', 'role', 'id'],
     });
 
     if (!user) {
-      throw new NotFoundException('Usuário não encontrado');
+      throw new NotFoundException('User not found');
     }
     return user;
   }
 
-  // get by name user
   async getUserByUsername(username: string): Promise<User> {
     const userExist = await this.userService.findOne({ where: { username } });
 
@@ -96,7 +87,7 @@ export class UsersService {
       await user.save();
     } catch (error) {
       throw new InternalServerErrorException(
-        'Erro ao salvar no banco de dados',
+        'Error',
       );
     }
     return user;
